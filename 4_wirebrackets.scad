@@ -1,5 +1,4 @@
 //  Feb 2011, by ftoad  cc-na
-// flattr this one:  
 // build up module for bracket..
 
 // SOME VARS
