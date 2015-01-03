@@ -1,5 +1,6 @@
 //
-// dishwasher bushing bushing and compression connection for rack wheels 
+// 70's General Electric 
+// Dishwasher roller and bushing for dishtray rack
 //
 wheel_radius_outer = 22.2;
 wheel_ID = 10.0;
