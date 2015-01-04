@@ -5,7 +5,7 @@ This repo lies. There are no stl files.
 
 A collection of openscad files for 3d printing projects
 
-Filenamess and internal comments are self explanatory, use openscad to generate stl's that can be manipulated for 3D printing
+Filenames and internal comments are self explanatory, use openscad to generate stl's that can be manipulated for 3D printing
 
 Using
 -----
