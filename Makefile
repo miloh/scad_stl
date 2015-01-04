@@ -3,7 +3,7 @@ include $(wildcard *.deps)
 #
 .PHONY: clean
 %.stl: %.scad
-	openscad m make -o $@ -d $@.deps $<
+	openscad -m make -o $@ -d $@.deps $<
 
 %.png: %.scad
 	openscad -o $@ $<
