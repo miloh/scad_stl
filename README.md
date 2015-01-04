@@ -1,10 +1,23 @@
 "scad_stl"
 ----------
 
-this repo lies. There are no stl files. 
+This repo lies. There are no stl files. 
 
-A collection of openscad files for 3d printing in a single project
+A collection of openscad files for 3d printing projects
 
-Files are self explanatory, use openscad to generate stl's that can be manipulated for 3D printing
+Filenamess and internal comments are self explanatory, use openscad to generate stl's that can be manipulated for 3D printing
+
+Using
+-----
+on appropriate systems, openscad can be run at the commandline with make:
+
+```` 
+$make Noisecoin.stl
+````
+uses your openscad install to generate a stl from the 'Noisecoin.scad' file.
+```` 
+$make Noisecoin.png
+````
+uses your openscad install to generate a png image from the 'Noisecoin.scad' file.
 
 openscad is available at https://openscad.org
