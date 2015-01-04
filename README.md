@@ -1,4 +1,4 @@
-"scad_stl"_
+"scad_stl"
 ----------
 
 this repo lies. There are no stl files. 
