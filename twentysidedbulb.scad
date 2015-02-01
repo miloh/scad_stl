@@ -2,13 +2,28 @@ module dodecahedron(r){hull()for(a=[0:72:288])rotate([atan(sqrt(5)/2-0.5),0,a])t
 //dodecahedron(r=10);
 
 phi =10*((1+ sqrt(5))/2);
-$fn=40;
+$fn=35;
 
 module profile() linear_extrude(height = 10, center = true) polygon(points=[[phi,1],[phi,-1],[0,-phi],[-phi,-1],[-phi,1],[0,phi]], paths=[[0,1,2,3,4,5]]);
 
-module partial_cutout() linear_extrude(height = 10, center = true) difference(){
-polygon(points=[[phi,1],[phi,-1],[0,-phi],[-phi,-1],[-phi,1],[0,phi]],
-paths=[[0,1,2,3,4,5]]); circle(r=0.15); }
+module partial_cutout() linear_extrude(height = 10, center = true) 
+    difference(){
+      polygon(points=[[phi,1],[phi,-1],[0,-phi],[-phi,-1],[-phi,1],[0,phi]],paths=[[0,1,2,3,4,5]]); 
+      circle_array(spacing=0.12,size=0.15,number=3);
+     };
+
+module circle_array(size=1.0, spacing=1.0,number=3){
+    for ( i = [0 : number-1] )
+    {
+        if (i % 2 ){ 
+          translate([spacing*2, i*spacing*2, 0])circle(r=size);
+        }else { 
+          translate([0, i*spacing*2, 0])circle(r=size);
+        }
+    }
+}
+
+//circle_array(spacing=1.2, size=1.5,number=6);
 
 difference(){
 difference(){
