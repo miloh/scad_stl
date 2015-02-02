@@ -1,7 +1,7 @@
 module dodecahedron(r){hull()for(a=[0:72:288])rotate([atan(sqrt(5)/2-0.5),0,a])translate([-r/2,-r/2,-r/2])cube(r);}
 //dodecahedron(r=10);
 
-phi =10*((1+ sqrt(5))/2);
+phi =((1+ sqrt(5))/2);
 $fn=35;
 
 module profile() linear_extrude(height = 10, center = true) polygon(points=[[phi,1],[phi,-1],[0,-phi],[-phi,-1],[-phi,1],[0,phi]], paths=[[0,1,2,3,4,5]]);
@@ -16,14 +16,14 @@ module circle_array(size=1.0, spacing=1.0,number=3){
     for ( i = [0 : number-1] )
     {
         if (i % 2 ){ 
-          translate([spacing*2, i*spacing*2, 0])circle(r=size);
+         rotate([0,0,i*180])translate([spacing*i, spacing*i, 0])circle(r=size,center=true);
         }else { 
-          translate([0, i*spacing*2, 0])circle(r=size);
+          rotate([0,0,0])translate([spacing*i,spacing*i, 0])circle(r=size,center=true);
         }
     }
 }
 
-//circle_array(spacing=1.2, size=1.5,number=6);
+//circle_array(spacing=3.0, size=1.5,number=3);
 
 difference(){
 difference(){
