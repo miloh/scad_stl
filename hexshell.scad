@@ -1,22 +1,42 @@
 // hexshell.scad
+// a storage container with removable lids in a hex shape
 // 14-2-2015
-
-
 
 // measurements 
 outside_diameter=88;
 inside_diameter=65;
 height=153;
 layer_height=0.2;
-// test modules
 
-//hexshell
+// this calls up the bottom of the container
+// uncomment one and leave the other commented 
+//relative_height=0.80;
+//relative_height=0.20;
+relative_height=1.0;
+
+difference(){
+hex_shell_storage();
+translate([-500,-500,-height*relative_height])
+cube([1000,1000,height]);
+}
+
+//this calls up the joint screw
+//decascrew(height=height/2,radius=(outside_diameter-(outside_diameter-inside_diameter)/2)/2,slices=height/layer_height,twist=360);
+
+// this is the body of the complete hex shell storage container
+module hex_shell_storage(){
 difference(){
 linear_extrude(height=height,convexity=10,twist=0)
 translate([0,0,0])
 circle(r=outside_diameter/2,$fn=6);
 translate([0,0,height/2])
 capsule(height=height,radius=inside_diameter/2);
+  translate([0,0,height/2])
+  difference(){
+  decascrew(height=height/1.2,radius=(outside_diameter-(outside_diameter-inside_diameter)/2)/2-1.0,slices=height/layer_height,twist=360);
+  decascrew(height=height/1.2,radius=(outside_diameter-(outside_diameter-inside_diameter)/2)/2-3.5,slices=height/layer_height,twist=360);
+  }
+}
 }
 
 //slices=height/layer_height
@@ -56,10 +76,9 @@ module jarcap(){
 
 // modules maybe not worth saving
 
-module hexinside(h=1,diameter=1,$fn=30,twist=0,slices=1){
-translate([0,0,10])
-linear_extrude(height=h,convexity=10,twist,slices=slices)
-circle($fn,r=diameter/2);
+module decascrew(height=1,radius,$fn=12,twist=0,slices=1){
+linear_extrude(height=height,convexity=10,twist=twist,slices=slices,center=true)
+circle($fn,r=radius);
 }
 
 // modules maybe for elsewhere
