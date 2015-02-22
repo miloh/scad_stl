@@ -8,12 +8,13 @@ inside_diameter=65;
 height=153;
 layer_height=0.2;
 
-// this calls up the bottom of the container
+// this calls up the different parts of the container, top/bottom/all
 // uncomment one and leave the other commented 
 //relative_height=0.80;
-//relative_height=0.20;
-relative_height=1.0;
+relative_height=0.20;
+//relative_height=1.0;
 
+// 
 difference(){
 hex_shell_storage();
 translate([-500,-500,-height*relative_height])
@@ -21,7 +22,7 @@ cube([1000,1000,height]);
 }
 
 //this calls up the joint screw
-//decascrew(height=height/2,radius=(outside_diameter-(outside_diameter-inside_diameter)/2)/2,slices=height/layer_height,twist=360);
+//decascrew(height=height/2,radius=(outside_diameter-(outside_diameter-inside_diameter)/2)/2-2.25,slices=height/layer_height,twist=360);
 
 // this is the body of the complete hex shell storage container
 module hex_shell_storage(){
