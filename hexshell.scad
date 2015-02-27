@@ -22,7 +22,7 @@ cube([1000,1000,height]);
 }
 
 //this calls up the joint screw
-//decascrew(height=height/2,radius=(outside_diameter-(outside_diameter-inside_diameter)/2)/2-2.25,slices=height/layer_height,twist=360);
+//decascrew(height=height/1.2,radius=(outside_diameter-(outside_diameter-inside_diameter)/2)/2-2.25,slices=height/layer_height,twist=360);
 
 // this is the body of the complete hex shell storage container
 module hex_shell_storage(){
