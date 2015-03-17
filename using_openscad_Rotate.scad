@@ -42,16 +42,14 @@
 
 // the ultimate rotated cube body diagonal rotated chandileir object
 // note the hyperbolic parabloids!
-union(){
-for(i=[0:30:359]){
+for(i=[0:30:90]){
     rotate([0,0,-i])
    difference(){
    scale([1,1,1.5])rotate(a=90-atan(1/sqrt(2)),v=[1,-1,0])
-        cube(size=1);
+        cube(size=100);
    // interior carving
-   translate([0,0,1.42])sphere(r=0.72,$fn=10);    
+   translate([0,0,135])scale([1.0,1.0,1.50])sphere(r=61.0,$fn=37); 
    // sbase 
-   sphere(r=0.5,$fn=10);
+   sphere(r=50,$fn=10);
    }
-}
 }
