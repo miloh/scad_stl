@@ -39,17 +39,30 @@
 //translate([0,0,-1])sphere(r=0.65, $fn=80);
 //   }
 
+module wordcube(size,string="CUBE"){
+	union(){
+		cube(size=size);
+		translate([0,size-size/8,size])rotate([0,0,0])linear_extrude(height=2)text(string);
+		translate([size,0,size-size/8])rotate([90,0,90])linear_extrude(height=2)
+		text(string);
+		translate([size-size/8,size,0])rotate([-90,-90,0])linear_extrude(height=2)
+		text(string);
+	}
+}
+
+
+
 
 // the ultimate rotated cube body diagonal rotated chandileir object
 // note the hyperbolic parabloids!
 for(i=[0:30:90]){
     rotate([0,0,-i])
    difference(){
-   scale([1,1,1.5])rotate(a=90-atan(1/sqrt(2)),v=[1,-1,0])
-        cube(size=100);
+       scale([1,1,1.5])rotate(a=90-atan(1/sqrt(2)),v=[1,-1,0])
+	   wordcube(100,"art");
    // interior carving
-   translate([0,0,135])scale([1.0,1.0,1.50])sphere(r=61.0,$fn=37); 
+//   translate([0,0,135])scale([1.0,1.0,1.50])sphere(r=61.0,$fn=37); 
    // sbase 
-   sphere(r=50,$fn=10);
+//   sphere(r=50,$fn=10);
    }
 }
