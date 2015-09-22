@@ -1,6 +1,6 @@
 // hexshell.scad
 // a storage container with removable lids in a hex shape
-// 14-2-2015
+// 14-Feb-2015
 
 // measurements 
 outside_diameter=88;
