@@ -1,7 +1,7 @@
 //uncomment the following
 //translate([3,3,3])
-//rotate(a=54.7,v=[0,1,0])
-//rotate(a=45, v=[0,0,1])
+//rotate(a=acos(1/(sqrt(3))),v=[0,1,0])
+//rotate(a=asin(1/(sqrt(2))), v=[0,0,1])
 //  cube([1,1,1]);
 //
 //translate([3,3,3])rotate([45,-35  ,0])
@@ -59,10 +59,10 @@ for(i=[0:30:90]){
     rotate([0,0,-i])
    difference(){
        scale([1,1,1.5])rotate(a=90-atan(1/sqrt(2)),v=[1,-1,0])
-	   wordcube(100,"art");
-   // interior carving
-//   translate([0,0,135])scale([1.0,1.0,1.50])sphere(r=61.0,$fn=37); 
-   // sbase 
-//   sphere(r=50,$fn=10);
+	   wordcube(100,"");
+//   interior carving
+   translate([0,0,135])scale([1.0,1.0,1.50])sphere(r=61.0,$fn=37); 
+   // sbase
+   sphere(r=50,$fn=10);
    }
 }
