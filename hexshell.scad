@@ -14,18 +14,17 @@ apothem1 = radius * cos(180/num_sides);
 apothem2 = apothem1 * cos(180/(num_sides*2));
 height=60; // the total height of the container
 
-// build the object
-//difference(){
+// build the casing object
+difference(){
   //minkowski(){
   //sphere(r=0.3,$fn=30);
-//  cylinder(r=radius,h=height,$fn=num_sides);
+    cylinder(r=radius,h=height,$fn=num_sides);
   //}
-//
-translate([0,0,thickness])screwshell(apothem1,height,thickness,240,num_sides*2);
-//  capsule();
-//}
-// joining shell
-//translate([0,0,0])this_screwshell(0.5,100,thickness);
+    translate([0,0,thickness/2])screwshell(apothem1,height,thickness,240,num_sides*2);
+    capsule();
+}
+// build the joining shell
+translate([radius*3,0,0])screwshell(apothem1,height,thickness,240,num_sides*2);
 
 //
 // modules
@@ -41,7 +40,7 @@ module capsule(){
 
 // screwshell created with thickness along radius centerline
 module screwshell(radius,height,thickness,pitch,num_sides){
- linear_extrude(height, convexity=10,twist = pitch,slices = height/0.2){
+ linear_extrude(height-thickness, convexity=10,twist = pitch,slices = height/0.2){
   difference() {
     offset(r = thickness/2){
       circle(r=radius, center = true,$fn=num_sides);
