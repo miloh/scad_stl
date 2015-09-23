@@ -42,20 +42,6 @@ module capsule(){
     translate([0,0,apothem2])cylinder(r=apothem2-thickness,h=height-(apothem2)*2,$fn=num_sides*10);
 }
 
-// screw_pitches (mm/revolution) in the 10s and up are great.  cannot do 
-// metal pitch stuff with FFF yet!
-module screw(screw_height,screw_radius,screw_pitch,starts){
-    linear_extrude( height= screw_height, convexity=10, twist= screw_height/screw_pitch*360,slices=screw_height*10)
-    circle(r= screw_radius, $fn= starts);
-    }
-
-module this_screwshell(screwshell_offset1,screwshell_offset2,thickness){
-  difference(){
-    screw(height/1.1, apothem1 - thickness * screwshell_offset1 , 60, 12);
-    translate([0,0,-thickness/0.05])screw(height+thickness, apothem1 - thickness * screwshell_offset2 , 60, 12);
-  }
-}
-
 // screwshell created with thickness along radius centerline
 module screwshell(radius,height,thickness,pitch,num_sides){
  linear_extrude(height, convexity=10,twist = pitch,slices = height/0.2){
