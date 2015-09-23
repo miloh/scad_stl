@@ -1,10 +1,8 @@
 // hexshell.scad
 // hex shaped container with removable lids
-// 22-Sep-2015
-// revamp hexshell design to make it 
+// Sep-2015
+// Revamp of an earlier hexshell design, making it 
 // easily printed and parametizable 
-
-// todo:  fix the interaction between twist and slices in the screw module
 
 // measurements 
 thickness=1;
@@ -28,7 +26,6 @@ translate([0,0,thickness])screwshell(apothem1,height,thickness,240,num_sides*2);
 //}
 // joining shell
 //translate([0,0,0])this_screwshell(0.5,100,thickness);
-
 
 //
 // modules
