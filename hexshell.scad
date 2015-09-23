@@ -12,25 +12,22 @@ num_sides=6;// regular polygons with n sides
 radius=25;// polygon radius, all internal dimensions flow from this
 layer_height=0.2; // possibly needed for screw calculations
 tolerance = 0.6; // use standard value for slide fits with 3DP
-apothem1 = radius*cos(180/num_sides);
-apothem2 = (radius-thickness*1.6)*cos(180/num_sides);
+apothem1 = radius * cos(180/num_sides);
+apothem2 = apothem1 * cos(180/(num_sides*2));
 height=60; // the total height of the container
 
 // build the object
-difference(){
+//difference(){
   //minkowski(){
   //sphere(r=0.3,$fn=30);
-  cylinder(r=radius,h=height,$fn=num_sides);
+//  cylinder(r=radius,h=height,$fn=num_sides);
   //}
-  translate([0,0,thickness])this_screwshell(0.1,1.3,thickness);
-  capsule();
-}
-
-
+//
+translate([0,0,thickness])screwshell(apothem1,height,thickness,240,num_sides*2);
+//  capsule();
+//}
 // joining shell
 //translate([0,0,0])this_screwshell(0.5,100,thickness);
-
-
 
 
 //
@@ -48,15 +45,27 @@ module capsule(){
 // screw_pitches (mm/revolution) in the 10s and up are great.  cannot do 
 // metal pitch stuff with FFF yet!
 module screw(screw_height,screw_radius,screw_pitch,starts){
-    linear_extrude( height= screw_height, convexity=10, twist= 
-    screw_height/screw_pitch*360,slices=screw_height*10)
+    linear_extrude( height= screw_height, convexity=10, twist= screw_height/screw_pitch*360,slices=screw_height*10)
     circle(r= screw_radius, $fn= starts);
     }
 
 module this_screwshell(screwshell_offset1,screwshell_offset2,thickness){
   difference(){
     screw(height/1.1, apothem1 - thickness * screwshell_offset1 , 60, 12);
-    translate([0,0,0])screw(height, apothem1 - thickness *
-    screwshell_offset2 , 60, 12);
+    translate([0,0,-thickness/0.05])screw(height+thickness, apothem1 - thickness * screwshell_offset2 , 60, 12);
   }
+}
+
+// screwshell created with thickness along radius centerline
+module screwshell(radius,height,thickness,pitch,num_sides){
+ linear_extrude(height, convexity=10,twist = pitch,slices = height/0.2){
+  difference() {
+    offset(r = thickness/2){
+      circle(r=radius, center = true,$fn=num_sides);
+    }
+    offset(r = -thickness/2) {
+      circle(r=radius, center = true,$fn=num_sides);
+      }
+    }
+  } 
 }
