@@ -30,9 +30,11 @@ difference(){
     translate([0,0,thickness/2])screwshell(apothem1-thickness,height,thickness+spacing,240,num_sides*2);
     capsule(apothem2-thickness,height,num_sides*20);
 }
-// build the joining shell
+// build joining screwshell
 translate([radius*3,0,0])screwshell(apothem1-thickness,height,thickness,240,num_sides*2);
-translate([-100,-100,0])capsule(apothem2-thickness,height,num_sides*20);
+// complete construction
+
+
 //
 // modules
 // all units in mm
@@ -51,8 +53,8 @@ module smooth_polycylinder(height,radius,fillet_radius,num_sides){
     }
 }
 
-// negative space.  remove from the center of the polycylinder.
-// must derive shape from polycylinder radius inputs for parametrizability
+// creates a capsule of height and radius as smooth as you would like,
+// used in this scad as negative space
 module capsule(radius,height,smoothness){
     translate([0,0,height-radius])sphere(r=radius,$fn=smoothness);
     translate([0,0,radius])sphere(r=radius,$fn=smoothness);
