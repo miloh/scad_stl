@@ -15,7 +15,7 @@ radius = 25;// polygon radius, all internal dimensions flow from this
 layer_height = 0.2; // possibly needed for screw calculations
 tolerance = 0.6; // use standard value for slide fits with 3DP
 apothem1 = radius * cos(180/num_sides);
-apothem2 = apothem1 * cos(180/(num_sides*2));
+apothem2 = (apothem1 - thickness - spacing) * cos(180/(num_sides*2));
 height=60; // the total height of the container
 
 // build the casing object
@@ -23,7 +23,7 @@ height=60; // the total height of the container
 difference(){
     translate([0,0,0])smooth_polycylinder(height,radius,0.3,6);
     translate([0,0,thickness/2])screwshell(apothem1-thickness,height,thickness+spacing,240,num_sides*2);
-    capsule(apothem2-thickness,height,num_sides*20);
+    capsule(apothem2,height,num_sides*20);
 }
 // build joining screwshell
 translate([radius*3,0,0])screwshell(apothem1-thickness,height,thickness,240,num_sides*2);
