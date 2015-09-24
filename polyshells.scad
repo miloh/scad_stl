@@ -1,10 +1,5 @@
-// hexshell.scad
-// hex shaped container with removable lids
-// hex shell
-// screw cavity
-// capsule cavity
-// 
-// screw shell
+// polyshells.scad
+// poly containers with screwtop lids 
 //
 // this design should allow all parts to be shell printed
 //
