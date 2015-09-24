@@ -12,7 +12,7 @@
 // easily printed and parametizable 
 
 // measurements 
-thickness = 1; // the thickness of the screw 
+thickness = 0.8; // the thickness of the screw 
 spacing = 0.4; // additional spacing for the screw cavity
 num_sides = 6;// regular polygons with n sides
 radius = 25;// polygon radius, all internal dimensions flow from this
@@ -29,11 +29,11 @@ difference(){
   //  sphere(r=0.3,$fn=30);
     cylinder(r=radius,h=height,$fn=num_sides);
   //}
-    translate([0,0,thickness/2])screwshell(apothem1,height,thickness+spacing,240,num_sides*2);
+    translate([0,0,thickness/2])screwshell(apothem1-thickness,height,thickness+spacing,240,num_sides*2);
     capsule();
 }
 // build the joining shell
-translate([radius*3,0,0])screwshell(apothem1,height,thickness,240,num_sides*2);
+translate([radius*3,0,0])screwshell(apothem1-thickness,height,thickness,240,num_sides*2);
 
 //
 // modules
