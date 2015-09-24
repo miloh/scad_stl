@@ -8,7 +8,7 @@
 $fn = 30;  // a good starting value
 thickness = 0.8; // the thickness of the screw 
 spacing = 0.4; // additional spacing for the screw cavity
-num_sides = 6;// regular polygons with n sides
+num_sides = 3;// regular polygons with n sides
 radius = 25;// polygon radius, all internal dimensions flow from this
 layer_height = 0.2; // possibly needed for screw calculations
 tolerance = 0.6; // use standard value for slide fits with 3DP
@@ -19,7 +19,7 @@ height=60; // the total height of the container
 // build the casing object
 // note minkowski is commented out because it distorts the measured dimension
 difference(){
-    translate([0,0,0])smooth_polycylinder(height,radius,0.3,6);
+    translate([0,0,0])smooth_polycylinder(height,radius,0.3,num_sides);
     translate([0,0,thickness/2])screwshell(apothem1-thickness,height,thickness+spacing,240,num_sides*2);
     translate([0,0,thickness])capsule(apothem2,height-thickness*2,num_sides*20);
 }
