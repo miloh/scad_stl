@@ -6,9 +6,9 @@
 
 // measurements 
 $fn = 30;  // a good starting value
-thickness = 0.8; // the thickness of the screw 
+thickness = 1; // the horizontal thickness of the screw, often some integer multiple of nozzle_width
 spacing = 0.4; // additional spacing for the screw cavity
-num_sides = 3;// regular polygons with n sides
+num_sides = 6;// regular polygons with n sides
 radius = 25;// polygon radius, all internal dimensions flow from this
 layer_height = 0.2; // possibly needed for screw calculations
 tolerance = 0.6; // use standard value for slide fits with 3DP
