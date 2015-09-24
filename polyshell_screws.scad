@@ -1,8 +1,6 @@
-// polyshells.scad
+// polyshells.scad by r. miloh
 // poly containers with screwtop lids 
-//
 // this design should allow all parts to be shell printed
-//
 // Revamp of an earlier hexshell design, making it 
 // easily printed and parametizable 
 
@@ -15,27 +13,28 @@ radius = 25;// polygon radius, all internal dimensions flow from this
 layer_height = 0.2; // possibly needed for screw calculations
 tolerance = 0.6; // use standard value for slide fits with 3DP
 apothem1 = radius * cos(180/num_sides);
-apothem2 = (apothem1 - thickness - spacing) * cos(180/(num_sides*2));
+apothem2 = (apothem1 - thickness * 2 - spacing) * cos(180/(num_sides*2));
 height=60; // the total height of the container
-
+//
 // build the casing object
 // note minkowski is commented out because it distorts the measured dimension
 difference(){
     translate([0,0,0])smooth_polycylinder(height,radius,0.3,6);
     translate([0,0,thickness/2])screwshell(apothem1-thickness,height,thickness+spacing,240,num_sides*2);
-    capsule(apothem2,height,num_sides*20);
+    translate([0,0,thickness])capsule(apothem2,height-thickness*2,num_sides*20);
 }
 // build joining screwshell
-translate([radius*3,0,0])screwshell(apothem1-thickness,height,thickness,240,num_sides*2);
+// should build this screwshell seperatly from the rest as splitting the
+// overall stl file will result in seperation of the aligned interior structure
+  translate([radius*3,0,0])screwshell(apothem1-thickness,height*0.9,thickness,240,num_sides*2);
+//
 // complete construction
-
-
 //
 // modules
 // all units in mm
 //
-// smooth_polycylinder is a nicer yet dimensionally accurate polycylinder extruded from the minkowski 
-// sum of the n sided polygon 
+// smooth_polycylinder is a nicer yet dimensionally accurate polycylinder extruded from the minkowski
+// sum of the n sided polygon
 // this still has a dimensioning bug (outside of bounds)for large values of fillet
 // bug can be fixed by using the radius of the incircle.. :-(
 // or it can be massaged by using a smaller radius measurement
