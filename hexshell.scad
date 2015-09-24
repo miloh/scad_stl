@@ -56,7 +56,7 @@ module smooth_polycylinder(height,radius,fillet_radius,num_sides){
 module capsule(radius,height,smoothness){
     translate([0,0,height-radius])sphere(r=radius,$fn=smoothness);
     translate([0,0,radius])sphere(r=radius,$fn=smoothness);
-    translate([0,0,radius])cylinder(r=radius,h=height-(apothem2)*2,$fn=smoothness);
+    translate([0,0,radius])cylinder(r=radius,h=height-radius*2,$fn=smoothness);
 }
 
 // screwshell created with thickness along radius centerline
