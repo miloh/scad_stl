@@ -9,29 +9,28 @@
 
 // measurements 
 $fn = 30;  // a good starting value
-thickness = 1; // the horizontal thickness of the screw, often some integer multiple of nozzle_width
+thickness = 1; // a perimeter thickness, often some integer multiple of nozzle_width
 spacing = 0.4; // additional spacing for the screw cavity
 num_sides = 6;// regular polygons with n sides
 radius = 25;// polygon radius, all internal dimensions flow from this
 layer_height = 0.2; // possibly needed for screw calculations
 tolerance = 0.6; // use standard value for slide fits with 3DP
-apothem1 = radius * cos(180/num_sides);
-apothem2 = (apothem1 - thickness * 2 - spacing) * cos(180/(num_sides*2));
+function apothem(radius,num_sides) =  radius * cos(180/num_sides);
+echo("Radius is ", radius, "For a ", num_sides, " sided polygon, the Apothem is ", apothem(radius,num_sides));
 height=60; // the total height of the container
 //
 // build the casing object
 // note minkowski is commented out because it distorts the measured dimension
 difference(){
-    translate([0,0,0])smooth_polycylinder(height,radius,0.3,num_sides);
-    translate([0,0,thickness/2])screwshell(apothem1-thickness,height,thickness+spacing,240,num_sides*2);
-    translate([0,0,thickness])capsule(apothem2,height-thickness*2,num_sides*20);
+    translate([0,0,0])smooth_polycylinder(height,radius,0.8,num_sides);
+    translate([0,0,height*0.05])screwshell(apothem(radius,num_sides)-thickness, height * 0.9  , thickness, 240, num_sides * 2);
+    translate([0,0,thickness])capsule(apothem(apothem(radius))-thickness - thickness * 2 - spacing , height - thickness * 2, num_sides * 20);
 }
 // build joining screwshell
 // should build this screwshell seperatly from the rest as splitting the
 // overall stl file will result in seperation of the aligned interior structure
-translate([radius*3,0,0])screwshell(apothem1-thickness,height*0.9,thickness,240,num_sides*2);
+translate([radius*3,0,0])screwshell(apothem - thickness * 3, height*0.9, thickness, 240, num_sides*2);
 //
-
 
 // complete construction
 //
@@ -63,7 +62,7 @@ module capsule(radius,height,smoothness){
 
 // screwshell created with thickness along radius centerline
 module screwshell(radius,height,thickness,pitch,num_sides){
- linear_extrude(height-thickness, convexity=10,twist = pitch,slices = height/0.2){
+ linear_extrude(height, convexity=10,twist = pitch, slices = height/0.2){
   difference() {
     offset(r = thickness/2){
       circle(r=radius, center = true,$fn=num_sides);
