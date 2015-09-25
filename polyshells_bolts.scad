@@ -55,9 +55,10 @@ module smooth_polycylinder(height,radius,fillet_radius,num_sides){
 // creates a capsule of height and radius as smooth as you would like,
 // used in this scad as negative space
 module capsule(radius,height,smoothness){
-    translate([0,0,height-radius])sphere(r=radius,$fn=smoothness);
-    translate([0,0,radius])sphere(r=radius,$fn=smoothness);
-    translate([0,0,radius])cylinder(r=radius,h=height-radius*2,$fn=smoothness);
+    hull(){
+      translate([0,0,height-radius])sphere(r=radius,$fn=smoothness);
+      translate([0,0,radius])sphere(r=radius,$fn=smoothness);
+    }
 }
 
 // screwshell created with thickness along radius centerline
