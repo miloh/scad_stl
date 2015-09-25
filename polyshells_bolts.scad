@@ -4,6 +4,9 @@
 // Revamp of an earlier hexshell design, making it 
 // easily printed and parametizable 
 
+// todo: implement output of cross section, projections, and stls based on
+// templating input (with python?) or command line inputs and make
+
 // measurements 
 $fn = 30;  // a good starting value
 thickness = 1; // the horizontal thickness of the screw, often some integer multiple of nozzle_width
@@ -26,8 +29,10 @@ difference(){
 // build joining screwshell
 // should build this screwshell seperatly from the rest as splitting the
 // overall stl file will result in seperation of the aligned interior structure
-  translate([radius*3,0,0])screwshell(apothem1-thickness,height*0.9,thickness,240,num_sides*2);
+translate([radius*3,0,0])screwshell(apothem1-thickness,height*0.9,thickness,240,num_sides*2);
 //
+
+
 // complete construction
 //
 // modules
