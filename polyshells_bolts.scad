@@ -1,5 +1,5 @@
-// polyshells.scad by r. miloh
-// poly containers with screwtop lids 
+// polyshells_bolts.scad by r. miloh
+// polygon bolts with screwtop lids 
 // this design should allow all parts to be shell printed
 // Revamp of an earlier hexshell design, making it 
 // easily printed and parametizable 
