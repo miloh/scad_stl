@@ -31,14 +31,14 @@ module capsule(radius,height,smoothness){
     }
 }
 // screwshell created with thickness along radius centerline
-module screwshell(radius,height,thickness,pitch,num_sides){
- linear_extrude(height, convexity=10,twist = pitch, slices = height/0.2){
-  difference() {
-    offset(r = thickness/2){
-      circle(r=radius, center = true,$fn=num_sides);
-    }
-    offset(r = -thickness/2) {
-      circle(r=radius, center = true,$fn=num_sides);
+module screwshell(radius,height,thickness,pitch,num_sides,layer_height){
+  linear_extrude(height, convexity=10,twist = pitch, slices = height/layer_height){
+    difference() {
+      offset(r = thickness/2){
+        circle(r=radius, center = true,$fn=num_sides);
+      }
+      offset(r = -thickness/2) {
+        circle(r=radius, center = true,$fn=num_sides);
       }
     }
   } 
