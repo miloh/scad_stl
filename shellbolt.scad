@@ -19,8 +19,8 @@ screw_twist = 240; // degrees
 difference(){
   filleted_polycylinder(boltHead_radius, boltHead_height,5.8, bolt_sides);
   translate([0,0,2])screwshell(apothem(boltHead_radius,bolt_sides)-nozzle_width*2, bolt_height, thickness, screw_twist, screw_sides, layer_height);
-  translate([0,0,2.0])capsule(apothem(apothem(boltHead_radius,bolt_sides)-nozzle_width*4, screw_sides*2), bolt_height, $fn);
+  translate([0,0,2.5])capsule(apothem(apothem(boltHead_radius,bolt_sides)-nozzle_width*4, screw_sides*2), bolt_height, $fn);
 }    
 // bolt shell
-translate([0,0,0])
+translate([boltHead_radius*2,0,0])
 polyscrew(apothem(boltHead_radius,bolt_sides)-nozzle_width*2, bolt_height,screw_twist, screw_sides, layer_height);
