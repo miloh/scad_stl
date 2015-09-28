@@ -5,15 +5,13 @@
 
 // todo: implement output of cross section, projections, and stls based on
 // templating input (with python?) or command line inputs and make
-
-
-// modules
-
 //
-// smooth_polycylinder is a nicer yet dimensionally accurate polycylinder extruded from the minkowski
+// Modules:
+//
+// filleted_polycylinder:  a nicer yet dimensionally accurate polycylinder extruded from the minkowski
 // sum of the n sided polygon
 // *  has a dimensioning bug (outside of bounds)for large values of fillet
-module mooth_polycylinder(radius,height,fillet_radius,num_sides){
+module filleted_polycylinder(radius,height,fillet_radius,num_sides){
     linear_extrude(height,twist=0,slices=1){
       minkowski(){
       circle(r=fillet_radius,$fn=80);
@@ -21,16 +19,14 @@ module mooth_polycylinder(radius,height,fillet_radius,num_sides){
       }
     }
 }
-
 // creates a capsule of height and radius as smooth as you would like,
-// used in this scad as negative space
+// used in shell bolts as negative space
 module capsule(radius,height,smoothness){
     hull(){
       translate([0,0,height-radius])sphere(r=radius,$fn=smoothness);
       translate([0,0,radius])sphere(r=radius,$fn=smoothness);
     }
 }
-
 // screwshell created with thickness along radius centerline
 module screwshell(radius,height,thickness,pitch,num_sides){
  linear_extrude(height, convexity=10,twist = pitch, slices = height/0.2){
