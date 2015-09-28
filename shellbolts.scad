@@ -6,6 +6,9 @@
 // todo: implement output of cross section, projections, and stls based on
 // templating input (with python?) or command line inputs and make
 //
+// Functions:  Apothem
+function apothem(radius,num_sides) =  radius * cos(180/num_sides);
+//
 // Modules:
 //
 // filleted_polycylinder:  a nicer yet dimensionally accurate polycylinder extruded from the minkowski
