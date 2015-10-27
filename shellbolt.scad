@@ -11,7 +11,7 @@ boltHead_radius = 10;
 bolt_sides = 6; // sides of the bold
 screw_sides = 12; // starts for the screw
 bolt_height = 22;
-screw_twist = 240; // degrees
+screw_twist = -240; // degrees
 //
 // shellbolt for tuco the cat, export seperate stls or together with translated polyscrew 
 //
