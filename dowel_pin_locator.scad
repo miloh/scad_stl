@@ -19,10 +19,10 @@ module tine(){
 
 for (phi =[0:359/45]) {
   if (phi % 2 == 0 ){
-    rotate([0,0,phi*90])tine();
+    rotate([0,0,phi*90])rotate([180,0,0])tine();
   }
   else  { 
-    rotate([0,0,phi*90])rotate([180,0,0])tine();
+    rotate([0,0,phi*90])rotate([0,0,0])tine();
   }
 }
 
