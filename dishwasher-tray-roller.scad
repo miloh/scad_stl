@@ -3,8 +3,8 @@
 // Dishwasher roller and bushing for dishtray rack
 //
 wheel_radius_outer = 22.2;
-wheel_ID = 10.0;
-washer_bushing_OD = 9.50;
+wheel_ID = 10.1;
+washer_bushing_OD = 9.30;
 mounting_rod_dia = 5.50;
 
 module half_cylinder(high=1,rad=1,$fn=60,center=true){
@@ -41,8 +41,9 @@ difference(){
   difference(){
     union(){
       cylinder(h=18,r=washer_bushing_OD/2.0,$fn=68,center=true);
-      translate([0,0,8])cylinder(h=2, r1=washer_bushing_OD/2.0,r2=washer_bushing_OD/2.0+1,$fn=68,center=true);
-      translate([0,0,-8])cylinder(h=2, r1=washer_bushing_OD/2.0+1,r2=washer_bushing_OD/2.0,$fn=68,center=true);
+      translate([0,0,8])cylinder(h=2.5,
+      r1=washer_bushing_OD/2.0,r2=washer_bushing_OD/2.0+0.5,$fn=68,center=true);
+      translate([0,0,-8.0])cylinder(h=3, r1=washer_bushing_OD/2.0+1.5,r2=washer_bushing_OD/2.0,$fn=68,center=true);
     }
     cylinder(h=30,r=mounting_rod_dia/2.0,$fn=68,center=true);
   }
@@ -66,4 +67,15 @@ module wheel_part(){
 
 
 bushing_part();
+$fn = 45;
+arc = 360;
+count = 7;
+radius = wheel_radius_outer/1.8;
+difference(){
 wheel_part();
+  for (i = [0:count - 1]){
+    angle = arc / count  * i;
+    translate(radius * [sin(angle),-cos(angle),0])
+    cylinder(r=wheel_ID/4.0, h = 25,center=true);
+  }
+}
