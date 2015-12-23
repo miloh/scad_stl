@@ -3,7 +3,7 @@
 // 70's era General something something Electric 
 //
 
-washer_bushing_OD = 8.90;
+washer_bushing_OD = 8.0;
 washer_bushing_ID = 5.20;
 wheel_radius_outer = 22.2;
 wheel_radius_inner = 6;
