@@ -6,30 +6,43 @@
 
 $fn = 20;
 // all measurements in mm
-width = 21.5;
-length = 45.0;
+part_width = 21.5;
+part_length = 45.0;
+part_height = 5;
 interior_length = 33.3;
 hole = 4;
+part_thickness = 2;
 
-module half_shape(){
-  linear_extrude(height=10)rotate([0,0,90])
-  polygon (
-    points = [[0,0],[0,21.5/2.0],[10,24/2.0],[10,21.5/2.0],[43.3,21.5/2],[43.3,0]],
-    convexity = 10
-  );
+
+module trappyzoid(){
+linear_extrude(height=6){
+polygon (points=
+ [[0,0],
+ [-2,0],
+ [0,-10],
+ [part_width,-10],
+ [part_width+2,0],
+ [part_width,0],
+ ],convexity=10);
 }
-
+}
 difference(){
-union(){
-half_shape();
-mirror()half_shape();
+  union(){
+    difference(){
+    trappyzoid();
+    scale([0.85,0.80,1])translate([1.8,-1.5,1.5])trappyzoid();
+    }
+    //base
+    cube([part_width,part_length,part_thickness]);
+    // walls 
+    cube([part_thickness,part_length,part_height]);
+    cube([part_width,part_thickness,part_height]);
+    translate([part_width-part_thickness,0,0])cube([part_thickness,part_length,part_height]);
+    translate([0,part_length-part_thickness,0])cube([part_width,part_thickness,part_height]);
+    translate([part_width/2,10,part_thickness])cylinder(h=3,r=12/2);
+  }
+  union(){
+translate([part_width/2,10,-10])cylinder(h=25,r=4/2);
+translate([part_width/2,10,-0.1])cylinder(h=1,r=7/2);
+  }
 }
-rotate([0,0,90])translate([16,0,-25/2]) cylinder(h=25,r=hole/2);
-rotate([0,0,90])translate([16,0,-1]) cylinder(h=2.1,r=hole+2/2);
-translate([0,0,1])scale([0.9,0.9,1])union(){
-half_shape();
-mirror()half_shape();
-}
-}
-
-
