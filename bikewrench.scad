@@ -10,7 +10,7 @@ eps = 0.1;
 outer_diameter=50;  // mm
 inner_diameter_upper=40.64; // mm
 inner_diameter_slope=33.8; // mm
-hex_nut_diameter = 28; // mm a good standard socket size
+hex_nut_diameter = 29.9; // 30 mm a good standard socket size
 threaded_axle_diameter=19; // mm this includes diameter of hex nut on axle
 axle_spacing=1; // 
 
@@ -61,10 +61,10 @@ scale([1,1,1])
     {
 
       // the body of the tool from which the bikewrench part will be subtracted below
-      cylinder(r=inner_diameter_upper/2,h=8);
+      cylinder(r=inner_diameter_upper/2,h=9);
       // built in hex turn nut, not $fn is 6 here for a hex turn nut
       //rotate([0,0,15])translate([0,0,8])cylinder(r=inner_diameter_upper/2-5,h=8,$fn=6);
-      rotate([0,0,15])translate([0,0,8])cylinder(r=radius_from_apothem(hex_nut_diameter/2,6),h=8,$fn=6);
+      rotate([0,0,15])translate([0,0,9])cylinder(r=radius_from_apothem(hex_nut_diameter/2,6),h=9,$fn=6);
       echo("hex nut circumcircle diameter = ", radius_from_apothem(hex_nut_diameter/2,6)*2);
       // loop for some smooth transition between lower wrench and built in hex turn nut
       for(i = [0:10])
