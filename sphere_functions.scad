@@ -1,12 +1,9 @@
 // functions for working with sphere surfaces in openscad
 // 
+$fn = 50;
+eps = 0.01;
 
 // given lat and long pair, output xyz cartesian coord 
-// note the earth is not spherical this will 
-
-// testing variables, decomment and alter to test
-$fn = 20;
-ball_radius = 10;
 
 // converts lat long to cartesian
 // todo: add validators for latitude (values between [-90:90] and longitud[-180:180]
@@ -21,6 +18,7 @@ function polar_to_cartesian(phi,theta,r) = [ r*sin(phi)*cos(theta),r*sin(phi)*si
 function uniform_dist(x) = acos(2*x - 1);
 
 // todo:  add functions to output efficient arrays to be used in poission disc distributions
+// add functions for mitchell's algorithim for poission disc distribution
 
 
 // testing output, decomment to test
@@ -28,47 +26,29 @@ function uniform_dist(x) = acos(2*x - 1);
 //sphere(ball_radius);
 //#translate(latlong_to_cartesian(30,180,ball_radius))sphere(r=1);
 
-// random distribution of N points over a sphere with radius R
-// generate N random points between 
-
-// uses rands
-// 
-// rands()
-// params:  min_value, max_value, value_count, seed_value 
-
+ball_radius = 48;
+little_ball_radius = 20;
+shell_thickness = 0.8;
+iterations = 39;
 single_rand =  rands(0,1,1)[0];
 echo(single_rand);
 seed = 42;
-iterations = 1000;
 thetans = rands(-180,180,iterations,seed);
 phis = rands(0,180,iterations,seed*2);
 r_vect_3 = rands(0,1,iterations,seed*2);
 
-//echo("Random Vector 1: ", random_vect_1);
-//echo("Random Vector 2: ", random_vect_2);
-//sphere(ball_radius);
-//echo(phis);
-//for (i=[0:iterations-1]){
-//echo("random vector base: ",(r_vect_3[i]));
-//echo("uniform distribution from random vector base:" ,uniform_dist(r_vect_3[i]));
-//}
-
-
 difference(){
-union(){
-for(i=[0:iterations-1])
-{
-   // regular distribution
-//   translate(polar_to_cartesian(phis[i],thetans[i],ball_radius))sphere(r=1);
-   // uniform distribution
-   translate(polar_to_cartesian(uniform_dist(r_vect_3[i]),thetans[i],ball_radius))sphere(r=0.6);
-}
-}
-sphere(ball_radius-0.1);
-union(){
-difference(){
-sphere(ball_radius+1);
-sphere(ball_radius+0.1);
-}
-}
+  union(){
+    for(i=[0:iterations-1])
+    {
+      translate(polar_to_cartesian(uniform_dist(r_vect_3[i]),thetans[i],ball_radius))sphere(little_ball_radius);
+    }
+  }
+    sphere(ball_radius-shell_thickness/2);
+  union(){
+    difference(){
+      sphere(ball_radius+little_ball_radius*2);
+      sphere(ball_radius+shell_thickness/2);
+    }
+  }
 }
