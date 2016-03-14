@@ -1,8 +1,9 @@
 // functions for working with sphere surfaces in openscad
 // 
-$fn = 50;
+$fn = 12;
 eps = 0.01;
 
+use <orient_to.scad>
 // given lat and long pair, output xyz cartesian coord 
 
 // converts lat long to cartesian
@@ -26,29 +27,37 @@ function uniform_dist(x) = acos(2*x - 1);
 //sphere(ball_radius);
 //#translate(latlong_to_cartesian(30,180,ball_radius))sphere(r=1);
 
-ball_radius = 48;
-little_ball_radius = 20;
-shell_thickness = 0.8;
-iterations = 39;
-single_rand =  rands(0,1,1)[0];
-echo(single_rand);
+ball_radius = 20;
+little_ball_radius = 0.1;
+little_circle_radius = 25;
+height = 1;
+shell_thickness = 0.5;
+iterations = 10;
 seed = 42;
 thetans = rands(-180,180,iterations,seed);
 phis = rands(0,180,iterations,seed*2);
 r_vect_3 = rands(0,1,iterations,seed*2);
 
-difference(){
-  union(){
+// circles randomly placed on a sphere 
     for(i=[0:iterations-1])
     {
-      translate(polar_to_cartesian(uniform_dist(r_vect_3[i]),thetans[i],ball_radius))sphere(little_ball_radius);
+      orient_to(polar_to_cartesian(uniform_dist(r_vect_3[i]),thetans[i],ball_radius),polar_to_cartesian(uniform_dist(r_vect_3[i]),thetans[i],ball_radius))linear_extrude(height)circle(little_circle_radius);
     }
-  }
-    sphere(ball_radius-shell_thickness/2);
-  union(){
-    difference(){
-      sphere(ball_radius+little_ball_radius*2);
-      sphere(ball_radius+shell_thickness/2);
-    }
-  }
-}
+
+
+// some work with curved slices of spheres
+//difference(){
+//  union(){
+//    for(i=[0:iterations-1])
+//    {
+//      translate(polar_to_cartesian(uniform_dist(r_vect_3[i]),thetans[i],ball_radius))sphere(little_ball_radius);
+//    }
+//  }
+//    sphere(ball_radius-shell_thickness/2);
+//  union(){
+//    difference(){
+//      sphere(ball_radius+little_ball_radius*2);
+//      sphere(ball_radius+shell_thickness/2);
+//    }
+//  }
+//}
