@@ -29,20 +29,21 @@ function uniform_dist(x) = acos(2*x - 1);
 
 ball_radius = 20;
 little_ball_radius = 0.1;
-little_circle_radius = 25;
-height = 1;
+little_circle_radius = 2;
+height = 20;
 shell_thickness = 0.5;
-iterations = 10;
+iterations = 525;
 seed = 42;
 thetans = rands(-180,180,iterations,seed);
 phis = rands(0,180,iterations,seed*2);
 r_vect_3 = rands(0,1,iterations,seed*2);
 
-// circles randomly placed on a sphere 
+// cones randomly placed on a sphere 
     for(i=[0:iterations-1])
     {
-      orient_to(polar_to_cartesian(uniform_dist(r_vect_3[i]),thetans[i],ball_radius),polar_to_cartesian(uniform_dist(r_vect_3[i]),thetans[i],ball_radius))linear_extrude(height)circle(little_circle_radius);
+     color([128-i,0,28/i])orient_to(polar_to_cartesian(uniform_dist(r_vect_3[i]),thetans[i],ball_radius),polar_to_cartesian(uniform_dist(r_vect_3[i]),thetans[i],ball_radius))cylinder(r1=little_circle_radius,r2=0.01,h=height);
     }
+
 
 
 // some work with curved slices of spheres
