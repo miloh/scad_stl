@@ -16,7 +16,7 @@ function polar_to_cartesian(phi,theta,r) = [ r*sin(phi)*cos(theta),r*sin(phi)*si
 
 // uniform distribution on a sphere, valid inputs only between 0 1 
 // todo: add validator for x between 0 and 1
-function uniform_dist(x) = acos(2*x - 1);
+function sphere_uniform_dist(x) = acos(2*x - 1);
 
 // todo:  add functions to output efficient arrays to be used in poission disc distributions
 // add functions for mitchell's algorithim for poission disc distribution
@@ -41,7 +41,7 @@ r_vect_3 = rands(0,1,iterations,seed*2);
 // cones randomly placed on a sphere 
     for(i=[0:iterations-1])
     {
-     color([128/i,0,128/i])orient_to(polar_to_cartesian(uniform_dist(r_vect_3[i]),thetans[i],ball_radius),polar_to_cartesian(uniform_dist(r_vect_3[i]),thetans[i],ball_radius))cylinder(r1=little_circle_radius,r2=0.01,h=height);
+     color([128/i,1-255/i,1-128/i])orient_to(polar_to_cartesian(sphere_uniform_dist(r_vect_3[i]),thetans[i],ball_radius),polar_to_cartesian(sphere_uniform_dist(r_vect_3[i]),thetans[i],ball_radius))cylinder(r1=little_circle_radius,r2=0.01,h=height);
     }
 
 
