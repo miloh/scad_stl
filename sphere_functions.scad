@@ -12,11 +12,15 @@ function latlong_to_cartesian(lat,lon,r) = [ r*cos(lat)*cos(lon),r*cos(lat)*sin(
 
 // converts polar to cartesian
 //  phi = polar or zenith angle or colatitude, theta = azimuthal, or projection on XY, r = radius
-function polar_to_cartesian(phi,theta,r) = [ r*sin(phi)*cos(theta),r*sin(phi)*sin(theta), r*cos(phi) ];
+function spherical_polar_to_cartesian(phi,theta,r) = [ r*sin(phi)*cos(theta),r*sin(phi)*sin(theta), r*cos(phi) ];
 
 // uniform distribution on a sphere, valid inputs only between 0 1 
 // todo: add validator for x between 0 and 1
 function sphere_uniform_dist(x) = acos(2*x - 1);
+
+// given radius and points, this function places point in every grid of area A = 4*Pi*r^2
+// given a radius and number of points, gives a grid of regularly spaced x,y,z points
+//function sphere_regular_dist(radius,num_points) = [r*360/points,r*360/points:360]) 
 
 // todo:  add functions to output efficient arrays to be used in poission disc distributions
 // add functions for mitchell's algorithim for poission disc distribution
