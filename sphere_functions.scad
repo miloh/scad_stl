@@ -18,9 +18,9 @@ function spherical_polar_to_cartesian(phi,theta,r) = [ r*sin(phi)*cos(theta),r*s
 // todo: add validator for x between 0 and 1
 function sphere_uniform_dist(x) = acos(2*x - 1);
 
-// given radius and points, this function places point in every grid of area A = 4*Pi*r^2
+// given radius and an n sided polyhedra, return points in every grid of area A = 4*Pi*r^2
 // given a radius and number of points, gives a grid of regularly spaced x,y,z points
-//function sphere_regular_dist(radius,num_points) = [r*360/points,r*360/points:360]) 
+function sphere_ngon_points(radius,ngon_vertices) = spherical_polar_to_cartesian(0,360/num_points,radius);
 
 // todo:  add functions to output efficient arrays to be used in poission disc distributions
 // add functions for mitchell's algorithim for poission disc distribution
@@ -45,7 +45,7 @@ r_vect_3 = rands(0,1,iterations,seed*2);
 // cones randomly placed on a sphere 
     for(i=[0:iterations-1])
     {
-     color([128/i,1-255/i,1-128/i])orient_to(polar_to_cartesian(sphere_uniform_dist(r_vect_3[i]),thetans[i],ball_radius),polar_to_cartesian(sphere_uniform_dist(r_vect_3[i]),thetans[i],ball_radius))cylinder(r1=little_circle_radius,r2=0.01,h=height);
+     color([128/i,1-255/i,1-128/i])orient_to(spherical_polar_to_cartesian(sphere_uniform_dist(r_vect_3[i]),thetans[i],ball_radius),spherical_polar_to_cartesian(sphere_uniform_dist(r_vect_3[i]),thetans[i],ball_radius))cylinder(r1=little_circle_radius,r2=0.01,h=height);
     }
 
 
@@ -55,7 +55,7 @@ r_vect_3 = rands(0,1,iterations,seed*2);
 //  union(){
 //    for(i=[0:iterations-1])
 //    {
-//      translate(polar_to_cartesian(uniform_dist(r_vect_3[i]),thetans[i],ball_radius))sphere(little_ball_radius);
+//      translate(sphercial_polar_to_cartesian(uniform_dist(r_vect_3[i]),thetans[i],ball_radius))sphere(little_ball_radius);
 //    }
 //  }
 //    sphere(ball_radius-shell_thickness/2);
