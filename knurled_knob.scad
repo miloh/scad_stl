@@ -20,7 +20,7 @@ Pi 			= 3.14;
 
 difference() {
 rotate([180,0,0])blank_knob();
-rotate([0,0,0])translate ([0,0,-shaft_length]) scoops();
+rotate([0,0,0])translate ([0,0,-shaft_length]) lozenge_polar_array();
 }
 
 //  modules to build the object
@@ -59,7 +59,7 @@ module lozenge(){
   }
 }
 
-module scoops(){
+module lozenge_polar_array(){
  for ( i = [0:4] ) {
   rotate( i*360/5 , [0,0,1]) translate( [od/2, od/2, 0] ) lozenge();
   }
