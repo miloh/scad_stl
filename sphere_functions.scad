@@ -45,7 +45,7 @@ r_vect_3 = rands(0,1,iterations,seed*2);
 // cones randomly placed on a sphere 
     for(i=[0:iterations-1])
     {
-     color([128/i,1-255/i,1-128/i])orient_to(spherical_polar_to_cartesian(sphere_uniform_dist(r_vect_3[i]),thetans[i],ball_radius),spherical_polar_to_cartesian(sphere_uniform_dist(r_vect_3[i]),thetans[i],ball_radius))cylinder(r1=little_circle_radius,r2=0.01,h=height);
+     color([i/526,i/526,0])orient_to(spherical_polar_to_cartesian(sphere_uniform_dist(r_vect_3[i]),thetans[i],ball_radius),spherical_polar_to_cartesian(sphere_uniform_dist(r_vect_3[i]),thetans[i],ball_radius))cylinder(r1=little_circle_radius,r2=0.01,h=height);
     }
 
 
