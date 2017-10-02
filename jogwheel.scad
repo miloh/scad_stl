@@ -128,12 +128,12 @@ difference(){
         sphere(4);
     }
 
-   scale([1-dome_thickness/10, 1-dome_thickness/10, 1-dome_thickness/10])
    //sphere(10);
     difference(){
+   scale([1-dome_thickness/10, 1-dome_thickness/10, 1-dome_thickness/10])
         sphere(10);
     translate([0,0,10])
-        sphere(4);
+        sphere(4+dome_thickness);
     }
 
     cube(25);
