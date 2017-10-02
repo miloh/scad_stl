@@ -6,7 +6,7 @@
 use <sphere_functions.scad>
 $fa=6.0;
 $fs=0.4;
-$fn= 60;
+$fn= 200;
 function sphere_radius_from_cap(height, diameter) = (pow(height,2) + pow(diameter/2,2) ) /(2*height);
 function thickness_as_fraction(scalar1, desired_thickness_scalar) = desired_thickness_scalar/scalar1 ;
 function thickness_as_percent(scalar1, desired_thickness_scalar) = (desired_thickness_scalar/scalar1)*100 ;
@@ -46,15 +46,17 @@ module spherical_cap (height , diameter){
     this_radius = sphere_radius_from_cap(height,diameter);
     intersection(){
       translate([0,0,height - this_radius])sphere(this_radius);
+      difference(){
       translate([0,0,this_radius*2.1/2]) cube(this_radius*2.1,center=true);
+      //%translate([0,0,this_radius*2.1/2]) cylinder(diameter*1.01, h = this_radius * 2, center=true);
+      translate([0,0,-this_radius*2.1/2]) cylinder(r=0.90*diameter/2,  h = this_radius * 2.1, center = true);
+      }
     }
 }
 
 // module takes inputs (height [a position along the radius]), diameter, thickness), and outputs a dome 
 module spherical_cap_shell (height , diameter, thickness){
     radius = sphere_radius_from_cap(height,diameter);
-    intersection(){
-      translate([0,0, diameter*1.1/2])
       cube(diameter*1.1,center=true);
     difference(){
       color("blue")translate([0,0, height - radius])
@@ -64,16 +66,6 @@ module spherical_cap_shell (height , diameter, thickness){
       sphere(radius - thickness );
     }
     }
-}
-
-
-// shell_children assumes array of 2 objects
-module shell_children(thickness_percent){
-  difference(){
-      color("blue")translate([0,0,0])scale([1,1,1])children(0);
-      color("red")translate([0,0,0])scale([1-thickness_percent/100, 1-thickness_percent/100, 1-thickness_percent/100])children(0);
-  }
-}
 
 // creates a solid dome with detent  
 module shell_dome_with_detent(dia, height, detent_dia, detent_depth, shell_thickness, closeness){
@@ -101,40 +93,48 @@ module rotenc_shaft(shaft_dia, shaft_len, keysplit_height=1){
 }
 
 
-
+// failed attempt
 //spherical_cap (3, 20);
 // orient_to (coord, normal)
-my_radius = sphere_radius_from_cap(dome_height,outer_dia);
-detent_placement_angle = 3;
+//my_radius = sphere_radius_from_cap(dome_height,outer_dia);
+//detent_placement_angle = 2;
 //difference(){
-//difference(){
-//    spherical_cap(dome_height,outer_dia);
-//    translate([0,0,-my_radius+dome_height])rotate([0,detent_placement_angle,0])orient_to(spherical_polar_to_cartesian(0,0,my_radius),spherical_polar_to_cartesian(180,0,0))
-//    spherical_cap(detent_depth,detent_dia);
+//    difference(){
+//        spherical_cap(dome_height,outer_dia);
+//        translate([0,0,-my_radius+dome_height])rotate([0,detent_placement_angle,0])orient_to(spherical_polar_to_cartesian(0,0,my_radius),spherical_polar_to_cartesian(180,0,0))spherical_cap(detent_depth,detent_dia);
 //}
 //
-//scale_factor = 1 - dome_thickness/my_radius;
-//scale([scale_factor, scale_factor, scale_factor])translate([0,0,-0.05])difference(){
-//    spherical_cap(dome_height,outer_dia);
-//    translate([0,0,-my_radius+dome_height])rotate([0,detent_placement_angle,0])orient_to(spherical_polar_to_cartesian(0,0,my_radius),spherical_polar_to_cartesian(180,0,0))
-//    spherical_cap(detent_depth,detent_dia);
+//    shrink_scale_factor = 1 - dome_thickness/my_radius;
+//    grow_scale_factor = 1 + dome_thickness/my_radius;
+//    translate([0,0,-0.05])
+//    difference(){
+//        scale([shrink_scale_factor, shrink_scale_factor, shrink_scale_factor])spherical_cap(dome_height,outer_dia);
+//        scale([grow_scale_factor, grow_scale_factor, grow_scale_factor])
+//	%translate([0,0,-my_radius+2*dome_height])rotate([0,detent_placement_angle,0])orient_to(spherical_polar_to_cartesian(0,0,my_radius),spherical_polar_to_cartesian(180,0,0))spherical_cap(detent_depth,detent_dia);
 //}
 //}
 
-difference(){
+
+// example of shell sphere with detent
+my_radius = sphere_radius_from_cap(dome_height, outer_dia);
+detent_radius = sphere_radius_from_cap(detent_depth, detent_dia);
+
+translate([0,0,-my_radius-dome_height])
+intersection(){ translate([0,0,0])difference(){
     difference(){
-        sphere(10);
-    translate([0,0,10])
-        sphere(4);
+        sphere(my_radius);
+   orient_to(spherical_polar_to_cartesian(3,0,my_radius+detent_radius-detent_depth),[0,0,0])
+        sphere(detent_radius);
     }
 
-   //sphere(10);
     difference(){
-   scale([1-dome_thickness/10, 1-dome_thickness/10, 1-dome_thickness/10])
-        sphere(10);
-    translate([0,0,10])
-        sphere(4+dome_thickness);
+        sphere(my_radius-thickness);
+   orient_to(spherical_polar_to_cartesian(3,0,my_radius+detent_radius-detent_depth),[0,0,0])
+        sphere(detent_radius+thickness);
     }
-
-    cube(25);
+    }
+    union(){
+    translate([-my_radius, -my_radius,my_radius-dome_height])cube(my_radius*2 ,center=false);
+    translate([0,0,my_radius-dome_height])cylinder(r=outer_dia/2, h=outer_dia,center=true);
+    }
 }
