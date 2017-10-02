@@ -6,7 +6,7 @@
 use <sphere_functions.scad>
 $fa=6.0;
 $fs=0.4;
-$fn= 300;
+$fn= 60;
 function sphere_radius_from_cap(height, diameter) = (pow(height,2) + pow(diameter/2,2) ) /(2*height);
 function thickness_as_fraction(scalar1, desired_thickness_scalar) = desired_thickness_scalar/scalar1 ;
 function thickness_as_percent(scalar1, desired_thickness_scalar) = (desired_thickness_scalar/scalar1)*100 ;
@@ -106,12 +106,27 @@ module rotenc_shaft(shaft_dia, shaft_len, keysplit_height=1){
 // orient_to (coord, normal)
 my_radius = sphere_radius_from_cap(dome_height,outer_dia);
 detent_placement_angle = 3;
-
-difference(){
-spherical_cap(dome_height,outer_dia);
-
-translate([0,0,-my_radius+dome_height])rotate([0,detent_placement_angle,0])orient_to(spherical_polar_to_cartesian(0,0,my_radius),spherical_polar_to_cartesian(180,0,0))
-spherical_cap(detent_depth,detent_dia);
+//difference(){
+//difference(){
+//    spherical_cap(dome_height,outer_dia);
+//    translate([0,0,-my_radius+dome_height])rotate([0,detent_placement_angle,0])orient_to(spherical_polar_to_cartesian(0,0,my_radius),spherical_polar_to_cartesian(180,0,0))
+//    spherical_cap(detent_depth,detent_dia);
+//}
+//
+//scale_factor = 1 - dome_thickness/my_radius;
+//scale([scale_factor, scale_factor, scale_factor])translate([0,0,-0.05])difference(){
+//    spherical_cap(dome_height,outer_dia);
+//    translate([0,0,-my_radius+dome_height])rotate([0,detent_placement_angle,0])orient_to(spherical_polar_to_cartesian(0,0,my_radius),spherical_polar_to_cartesian(180,0,0))
+//    spherical_cap(detent_depth,detent_dia);
+//}
+//}
+union(){
+    difference(){
+        sphere(10);
+        scale([1-dome_thickness/10, 1-dome_thickness/10, 1-dome_thickness/10])sphere(10);
+    }
+    translate([0,0,10])difference(){
+        sphere(4);
+    }
+	
 }
-
-translate([100,0,0])shell_dome_with_detent(100, 2, 15, 1.8, 2, 1.5 );
