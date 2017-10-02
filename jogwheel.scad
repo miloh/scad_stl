@@ -120,13 +120,21 @@ detent_placement_angle = 3;
 //    spherical_cap(detent_depth,detent_dia);
 //}
 //}
-union(){
+
+difference(){
     difference(){
         sphere(10);
-        scale([1-dome_thickness/10, 1-dome_thickness/10, 1-dome_thickness/10])sphere(10);
-    }
-    translate([0,0,10])difference(){
+    translate([0,0,10])
         sphere(4);
     }
-	
+
+   scale([1-dome_thickness/10, 1-dome_thickness/10, 1-dome_thickness/10])
+   //sphere(10);
+    difference(){
+        sphere(10);
+    translate([0,0,10])
+        sphere(4);
+    }
+
+    cube(25);
 }
