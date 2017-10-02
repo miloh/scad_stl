@@ -6,7 +6,8 @@
 use <sphere_functions.scad>
 $fa=6.0;
 $fs=0.4;
-$fn= 200;
+$fn= 100;
+eps = 0.05;
 function sphere_radius_from_cap(height, diameter) = (pow(height,2) + pow(diameter/2,2) ) /(2*height);
 function thickness_as_fraction(scalar1, desired_thickness_scalar) = desired_thickness_scalar/scalar1 ;
 function thickness_as_percent(scalar1, desired_thickness_scalar) = (desired_thickness_scalar/scalar1)*100 ;
@@ -93,48 +94,39 @@ module rotenc_shaft(shaft_dia, shaft_len, keysplit_height=1){
 }
 
 
-// failed attempt
-//spherical_cap (3, 20);
-// orient_to (coord, normal)
-//my_radius = sphere_radius_from_cap(dome_height,outer_dia);
-//detent_placement_angle = 2;
-//difference(){
-//    difference(){
-//        spherical_cap(dome_height,outer_dia);
-//        translate([0,0,-my_radius+dome_height])rotate([0,detent_placement_angle,0])orient_to(spherical_polar_to_cartesian(0,0,my_radius),spherical_polar_to_cartesian(180,0,0))spherical_cap(detent_depth,detent_dia);
-//}
-//
-//    shrink_scale_factor = 1 - dome_thickness/my_radius;
-//    grow_scale_factor = 1 + dome_thickness/my_radius;
-//    translate([0,0,-0.05])
-//    difference(){
-//        scale([shrink_scale_factor, shrink_scale_factor, shrink_scale_factor])spherical_cap(dome_height,outer_dia);
-//        scale([grow_scale_factor, grow_scale_factor, grow_scale_factor])
-//	%translate([0,0,-my_radius+2*dome_height])rotate([0,detent_placement_angle,0])orient_to(spherical_polar_to_cartesian(0,0,my_radius),spherical_polar_to_cartesian(180,0,0))spherical_cap(detent_depth,detent_dia);
-//}
-//}
-
-
 // example of shell sphere with detent
 my_radius = sphere_radius_from_cap(dome_height, outer_dia);
 detent_radius = sphere_radius_from_cap(detent_depth, detent_dia);
 
-translate([0,0,-my_radius-dome_height])
-intersection(){ translate([0,0,0])difference(){
-    difference(){
-        sphere(my_radius);
-   orient_to(spherical_polar_to_cartesian(3,0,my_radius+detent_radius-detent_depth),[0,0,0])
-        sphere(detent_radius);
-    }
-
-    difference(){
-        sphere(my_radius-thickness);
-   orient_to(spherical_polar_to_cartesian(3,0,my_radius+detent_radius-detent_depth),[0,0,0])
-        sphere(detent_radius+thickness);
-    }
+translate([0,0,-my_radius+dome_height])
+intersection(){
+    translate([0,0,0])difference(){
+        difference(){
+            sphere(my_radius);
+            orient_to(spherical_polar_to_cartesian(3.5,0,my_radius+detent_radius-detent_depth),[0,0,0])
+            sphere(detent_radius);
+        }
+        difference(){
+            sphere(my_radius-thickness);
+            orient_to(spherical_polar_to_cartesian(3.5,0,my_radius+detent_radius-detent_depth),[0,0,0])
+            sphere(detent_radius+thickness);
+        }
     }
     union(){
-    translate([-my_radius, -my_radius,my_radius-dome_height])cube(my_radius*2 ,center=false);
-    translate([0,0,my_radius-dome_height])cylinder(r=outer_dia/2, h=outer_dia,center=true);
+        translate([-my_radius, -my_radius,my_radius-dome_height])cube(my_radius*2 ,center=false);
+        translate([0,0,my_radius-dome_height])cylinder(r=outer_dia/2, h=outer_dia,center=true);
     }
 }
+
+// add the remaining parts to build the jogwheel
+difference(){
+translate([0,0,-outside_height])cylinder(r=outer_dia/2, h = outside_height  );
+translate([0,0,-outside_height-eps])cylinder(r=outer_dia/2-thickness, h = outside_height*2  );
+}
+
+difference(){
+translate([0,0,-dome_height-eps])rotate([180,0,0])cylinder(r=shaft_cylinder_dia/2, h = shaft_length-eps  );
+translate([0,0,-dome_height-eps])rotate([180,0,0])rotenc_shaft(shaft_diameter, shaft_length, keysplit_height=10);
+translate([0,0,-dome_height-eps])rotate([180,0,0])rotenc_shaft(shaft_diameter, shaft_length, keysplit_height=10);
+}
+
