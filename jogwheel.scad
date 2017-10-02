@@ -8,6 +8,7 @@ $fa=6.0;
 $fs=0.4;
 $fn= 100;
 eps = 0.05;
+print_offset = 0.3;
 function sphere_radius_from_cap(height, diameter) = (pow(height,2) + pow(diameter/2,2) ) /(2*height);
 function thickness_as_fraction(scalar1, desired_thickness_scalar) = desired_thickness_scalar/scalar1 ;
 function thickness_as_percent(scalar1, desired_thickness_scalar) = (desired_thickness_scalar/scalar1)*100 ;
@@ -19,7 +20,8 @@ lip_height = 7.0; // measurement from underside of jog wheel to base of cylinder
 outside_height = 9.50; // jog wheel height measured at the outside edge
 center_height = 11.50; // jog wheel height measured at the center
 shaft_length = 18.5; // underside length of shaft (helps ensure keepaways honored)
-shaft_diameter = 5.2; // critical dimension
+shaft_diameter = 6.0; // critical dimension
+keysplit_length= 12.0; //  measured 12mm
 detent_dia = 15.0; // top tactile detent, easy to measure for replacement parts 
 detent_depth = 1.85; //  top tactile detent depth 
 detent_dome_offset = 15;
@@ -125,8 +127,8 @@ translate([0,0,-outside_height-eps])cylinder(r=outer_dia/2-thickness, h = outsid
 }
 
 difference(){
-translate([0,0,-dome_height-eps])rotate([180,0,0])cylinder(r=shaft_cylinder_dia/2, h = shaft_length-eps  );
-translate([0,0,-dome_height-eps])rotate([180,0,0])rotenc_shaft(shaft_diameter, shaft_length, keysplit_height=10);
-translate([0,0,-dome_height-eps])rotate([180,0,0])rotenc_shaft(shaft_diameter, shaft_length, keysplit_height=10);
+translate([0,0,-dome_height-eps])rotate([180,0,0])cylinder(r2=shaft_cylinder_dia/4, r1= shaft_cylinder_dia , h = shaft_length-eps  );
+translate([0,0,-dome_height-eps])rotate([180,0,0])rotenc_shaft(shaft_diameter+print_offset, shaft_length, keysplit_length+print_offset);
+translate([0,0,-shaft_length-dome_height+thickness/2])rotate_extrude(convexity=1)translate([(shaft_cylinder_dia/4)+shaft_length,0,0])circle(r=shaft_length );
 }
 
