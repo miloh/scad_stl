@@ -5,13 +5,12 @@
 
 use <sphere_functions.scad>
 $fa=1.0;
-$fs=0.4;
+$fs=0.2;
 //$fn= 00;
 eps = 0.05;
 print_offset = 0.3;
 function sphere_radius_from_cap(height, diameter) = (pow(height,2) + pow(diameter/2,2) ) /(2*height);
-function thickness_as_fraction(scalar1, desired_thickness_scalar) = desired_thickness_scalar/scalar1 ;
-function thickness_as_percent(scalar1, desired_thickness_scalar) = (desired_thickness_scalar/scalar1)*100 ;
+function L_notch_square_points(size) = [ [0,0], [size,0], [size,-size], [0,-size], [-size, -size], [-size,0], [-size,size], [0,size] ];
 // jog wheel measurements:  jog wheel is cylindrical with a domed cap 
 // choice of measurements as follows are easy to obtain with calipers
 outer_dia = 99.7;// diameter of base cylinder
@@ -21,9 +20,10 @@ outside_height = 9.50; // jog wheel height measured at the outside edge
 center_height = 11.50; // jog wheel height measured at the center
 shaft_length = 18.5; // underside length of shaft (helps ensure keepaways honored)
 shaft_diameter = 6.0; // critical dimension
+shaft_key_dia = 4.5;  // not half!!
 keysplit_length= 12.0; //  measured 12mm
 detent_dia = 15.0; // top tactile detent, easy to measure for replacement parts 
-detent_depth = 1.85; //  top tactile detent depth 
+detent_depth = 3; //  top tactile detent depth measured 1.85, changed to 3 
 detent_dome_offset = 15;
 dome_height = center_height - outside_height; 
 dome_thickness = outside_height - lip_height; // sometimes this differs from thickness
@@ -88,12 +88,13 @@ translate([0,0,-jog_dome_radius + height])difference(){
 
 
 // module takes inputs and outputs a pot/encoder shaft with keysplit, for use with logical AND NOT 
-module rotenc_shaft(shaft_dia, shaft_len, keysplit_height=1){
+module rotenc_shaft(shaft_dia, shaft_len, keysplit=1, keysplit_dia){
       difference(){
         cylinder(r=shaft_dia/2, h=shaft_len);
-        scale([1,1.1,1])translate([shaft_dia/2,0,3*shaft_len/2-keysplit_height])cube([shaft_dia, shaft_dia, shaft_len], center=true);
+        scale([1,1.1,1])translate([shaft_dia-shaft_key_dia/2,0, 3*shaft_len/2 - keysplit ])cube([shaft_dia, shaft_dia, shaft_len], center=true);
       }
 }
+
 
 
 // example of shell sphere with detent
@@ -121,14 +122,24 @@ intersection(){
 }
 
 // add the remaining parts to build the jogwheel
+
+// surrounding cylinder, might have to modify/add a stepped cylinder later based on how it works
 difference(){
 translate([0,0,-outside_height])cylinder(r=outer_dia/2, h = outside_height  );
 translate([0,0,-outside_height-eps])cylinder(r=outer_dia/2-thickness, h = outside_height*2  );
 }
 
+// keyed shaft connector
 difference(){
-translate([0,0,-dome_height-eps])rotate([180,0,0])cylinder(r1=shaft_cylinder_dia/2+shaft_length, r2= shaft_cylinder_dia/2 , h = shaft_length-eps  );
-translate([0,0,-dome_height-eps])rotate([180,0,0])rotenc_shaft(shaft_diameter+print_offset, shaft_length, keysplit_length+print_offset);
-translate([0,0,-shaft_length-dome_height+thickness/2])rotate_extrude(convexity=1)translate([(shaft_cylinder_dia/4)+shaft_length,0,0])circle(r=shaft_length );
+    translate([0,0,dome_height-thickness/2])rotate([180,0,0])cylinder(r1=shaft_cylinder_dia/2+shaft_length, r2= shaft_cylinder_dia/2 , h = shaft_length-eps  );
+
+// generous 1.10 XYscale/0.6mm offset (w/ original measurements) for critical part
+    translate([0,0,-dome_height-eps])rotate([180,0,0])scale([1.10,1.10,1.0])rotenc_shaft(shaft_diameter, shaft_length, keysplit_length+print_offset, shaft_key_dia);
+
+    translate([0,0,-shaft_length])rotate_extrude(convexity=1) translate([(shaft_cylinder_dia/4)+shaft_length,0])
+    union(){ 
+        circle ( r=shaft_length);
+        rotate([0,0,90])polygon ( points = L_notch_square_points(shaft_length), convexity=1);
+}
 }
 
