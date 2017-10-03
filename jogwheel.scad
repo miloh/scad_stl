@@ -4,9 +4,9 @@
 // sizes for various standard sizes of rotary encoder shaft, split keyed or not
 
 use <sphere_functions.scad>
-$fa=6.0;
+$fa=1.0;
 $fs=0.4;
-$fn= 100;
+//$fn= 00;
 eps = 0.05;
 print_offset = 0.3;
 function sphere_radius_from_cap(height, diameter) = (pow(height,2) + pow(diameter/2,2) ) /(2*height);
@@ -27,7 +27,7 @@ detent_depth = 1.85; //  top tactile detent depth
 detent_dome_offset = 15;
 dome_height = center_height - outside_height; 
 dome_thickness = outside_height - lip_height; // sometimes this differs from thickness
-shaft_cylinder_dia = shaft_diameter + 15; // fix...
+shaft_cylinder_dia = shaft_diameter + 12; // fix...
 
 module orient_to(coordinate, normal) {   
       translate(coordinate)
@@ -127,7 +127,7 @@ translate([0,0,-outside_height-eps])cylinder(r=outer_dia/2-thickness, h = outsid
 }
 
 difference(){
-translate([0,0,-dome_height-eps])rotate([180,0,0])cylinder(r2=shaft_cylinder_dia/4, r1= shaft_cylinder_dia , h = shaft_length-eps  );
+translate([0,0,-dome_height-eps])rotate([180,0,0])cylinder(r1=shaft_cylinder_dia/2+shaft_length, r2= shaft_cylinder_dia/2 , h = shaft_length-eps  );
 translate([0,0,-dome_height-eps])rotate([180,0,0])rotenc_shaft(shaft_diameter+print_offset, shaft_length, keysplit_length+print_offset);
 translate([0,0,-shaft_length-dome_height+thickness/2])rotate_extrude(convexity=1)translate([(shaft_cylinder_dia/4)+shaft_length,0,0])circle(r=shaft_length );
 }
