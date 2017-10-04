@@ -95,6 +95,16 @@ module rotenc_shaft(shaft_dia, shaft_len, keysplit=1, keysplit_dia){
       }
 }
 
+module sphere_detent_children(detent_radius, shell_thickness){
+    intersection(){
+      difference(){
+        sphere(detent_radius + shell_thickness);
+        sphere(detent_radius);
+      }
+      children();
+    }
+}
+
 
 
 // example of shell sphere with detent
