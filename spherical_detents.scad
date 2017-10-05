@@ -43,25 +43,30 @@ module spherical_cap_shell (height , diameter, thickness){
 
 
 // needs some uniform symmetry around the origin. works with centered solids
-module sphere_detent_children(detent_radius, detent_depth, coordinate, normal , child_size, shell_thickness){
+module sphere_detent_children(detent_radius, coordinate, normal , child_size, shell_thickness){
     intersection(){
-	difference(){
+        difference(){
           difference(){
             children();
             orient_to(coordinate,normal)sphere(r=detent_radius);
           }
           difference(){
-            scale([1-shell_thickness/child_size, 1-shell_thickness/child_size,1-shell_thickness/child_size])children();
+            scale([1-shell_thickness/child_size, 1-shell_thickness/child_size, 1-shell_thickness/child_size])children();
             orient_to(coordinate,normal)sphere(r=detent_radius+shell_thickness/2);
           }
-	}
+        }
     }
 }
 
 
 module anim(t) {
     difference(){
-        sphere_detent_children(2.5, 1,[12*cos(t*360),12*sin(t*360),sin(t*180)-3], [0,0,0], 20, 1) cube([20,20,20],center=true);
+        sphere_detent_children(3, [5*cos(t*360),5*sin(t*360),-1], [0,0,0], 10, 2)
+        union (){
+          //cube([20,20,20],center=true);
+          scale([1,1,1])translate([0,0,0])sphere(5);
+        }
+        // cross section to view
         translate([0,0,10])cube([40,40,20],center=true);
     }
 }
@@ -74,4 +79,4 @@ anim(0.9);
 
 
 //anim_sim();
-anim($t);
+rotate([180,0,0])anim($t);
