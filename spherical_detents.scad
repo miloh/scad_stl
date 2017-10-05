@@ -1,10 +1,18 @@
 use <sphere_functions.scad>
-$fa=1.0;
-$fs=0.2;
+use <arrayPolar.scad>
+$fa=5.0;
+$fs=0.5;
 //$fn= 00;
 eps = 0.05;
 print_offset = 0.3;
 function sphere_radius_from_cap(height, diameter) = (pow(height,2) + pow(diameter/2,2) ) /(2*height);
+
+module orient_to(coordinate, normal) {   
+      translate(coordinate)
+      rotate([0, 0, atan2(normal.y, normal.x)]) //rotation
+      rotate([0, atan2(sqrt(pow(normal.x, 2)+pow(normal.y, 2)),normal.z), 0])
+      children();
+}
 
 // module takes inputs height (any position along radius), diameter, and 
 // thickness, and outputs a 'spherical cap' 
@@ -34,8 +42,8 @@ module spherical_cap_shell (height , diameter, thickness){
     }
 
 
-module sphere_detent_children(detent_diameter, detent_depth, coordinate, normal , child_size, shell_thickness){
-detent_radius = sphere_radius_from_cap(detent_depth, detent_diameter);
+// needs some uniform symmetry around the origin. works with centered solids
+module sphere_detent_children(detent_radius, detent_depth, coordinate, normal , child_size, shell_thickness){
     intersection(){
 	difference(){
           difference(){
@@ -51,11 +59,19 @@ detent_radius = sphere_radius_from_cap(detent_depth, detent_diameter);
 }
 
 
-module animate(t) {
-
-difference(){
-sphere_detent_children(10, 1, [($t*50)-25,0,$t*20], [$t*10-20,$t*10-20,0], 20, 2)cube([20,20,20],center=true);
-translate([0,0,-10])cube([50,50,20],center=true);
+module anim(t) {
+    difference(){
+        sphere_detent_children(2.5, 1,[12*cos(t*360),12*sin(t*360),sin(t*180)-3], [0,0,0], 20, 1) cube([20,20,20],center=true);
+        translate([0,0,10])cube([40,40,20],center=true);
+    }
 }
 
-animate($t);
+module anim_sim(){
+anim(0.1);
+anim(0.5);
+anim(0.9);
+}
+
+
+//anim_sim();
+anim($t);
