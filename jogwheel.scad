@@ -4,7 +4,7 @@
 // sizes for various standard sizes of rotary encoder shaft, split keyed or not
 
 use <sphere_functions.scad>
-$fa=1.0;
+$fa=5.0;
 $fs=0.2;
 //$fn= 00;
 eps = 0.05;
@@ -99,19 +99,23 @@ module rotenc_shaft(shaft_dia, shaft_len, keysplit=1, keysplit_dia){
       }
 }
 
-module sphere_detent_children(detent_radius, shell_thickness){
+module sphere_detent_children(detent_diameter, detent_depth, coordinate, normal , child_size, shell_thickness){
+detent_radius = sphere_radius_from_cap(detent_depth, detent_diameter);
     intersection(){
-      difference(){
-        sphere(detent_radius + shell_thickness);
-        sphere(detent_radius);
-      }
-      children();
+	difference(){
+          difference(){
+            children();
+            orient_to(coordinate,normal)sphere(r=detent_radius);
+          }
+          difference(){
+            scale([1-shell_thickness/child_size, 1-shell_thickness/child_size,1-shell_thickness/child_size])children();
+            orient_to(coordinate,normal)sphere(r=detent_radius+shell_thickness/2);
+          }
+	}
     }
 }
 
-
-
-// example of shell sphere with detent
+//// example of shell sphere with detent
 my_radius = sphere_radius_from_cap(dome_height, outer_dia);
 detent_radius = sphere_radius_from_cap(detent_depth, detent_dia);
 
