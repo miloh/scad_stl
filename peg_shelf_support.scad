@@ -18,7 +18,7 @@ rect_points = [ [0,0] , [ rect_width,0], [rect_width,rect_height],[0,rect_height
 peg_dia = 5.45;
 countersink_dia = 7.85;
 countersink_depth = 2.35;
-length = 20.0;
+length = 30.0;
 
 // a L notch to cut standard quarter circle molding profile
 size = profile_radius*2;
