@@ -6,8 +6,8 @@ use <orient_to.scad>
 
 // static
 eps = 0.05;
-print_eps = 0.25;
-$fn = 500;
+print_eps = 0.19;
+$fn = 50;
 
 // measurements and dimensions
 
